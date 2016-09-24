@@ -1,0 +1,8 @@
+c:\users\arseni\documents\visual studio 2015\Projects\HabrParser\HabrParser\bin\Debug\HabrParser.exe.config
+c:\users\arseni\documents\visual studio 2015\Projects\HabrParser\HabrParser\bin\Debug\HabrParser.exe
+c:\users\arseni\documents\visual studio 2015\Projects\HabrParser\HabrParser\bin\Debug\HabrParser.pdb
+c:\users\arseni\documents\visual studio 2015\Projects\HabrParser\HabrParser\obj\Debug\HabrParser.exe
+c:\users\arseni\documents\visual studio 2015\Projects\HabrParser\HabrParser\obj\Debug\HabrParser.pdb
+c:\users\arseni\documents\visual studio 2015\Projects\HabrParser\HabrParser\bin\Debug\HtmlAgilityPack.dll
+c:\users\arseni\documents\visual studio 2015\Projects\HabrParser\HabrParser\bin\Debug\HtmlAgilityPack.pdb
+c:\users\arseni\documents\visual studio 2015\Projects\HabrParser\HabrParser\bin\Debug\HtmlAgilityPack.xml
