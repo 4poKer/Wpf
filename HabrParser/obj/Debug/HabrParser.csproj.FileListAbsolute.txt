@@ -6,3 +6,6 @@ c:\users\arseni\documents\visual studio 2015\Projects\HabrParser\HabrParser\obj\
 c:\users\arseni\documents\visual studio 2015\Projects\HabrParser\HabrParser\bin\Debug\HtmlAgilityPack.dll
 c:\users\arseni\documents\visual studio 2015\Projects\HabrParser\HabrParser\bin\Debug\HtmlAgilityPack.pdb
 c:\users\arseni\documents\visual studio 2015\Projects\HabrParser\HabrParser\bin\Debug\HtmlAgilityPack.xml
+C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\obj\Debug\HabrParser.csprojResolveAssemblyReference.cache
+C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\obj\Debug\HabrParser.csproj.GenerateResource.Cache
+C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\obj\Debug\HabrParser.Resources.resources

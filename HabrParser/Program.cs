@@ -11,12 +11,12 @@ namespace HabrParser
     {
         static void GetDataById(int ArticleId) {
 
-            HtmlDocument document=null;
+            HtmlDocument Document=null;
 
             try
             {
-                HtmlWeb web = new HtmlWeb();
-                document = web.Load("http://www.habrahabr.ru/post/" + ArticleId + "/");
+                HtmlWeb Web = new HtmlWeb();
+                Document = Web.Load(Resources.PostString + ArticleId + "/");
             }
             catch (System.Net.WebException ex)
             {
@@ -28,25 +28,25 @@ namespace HabrParser
             try
             {
                 //Поиск названия темы
-                var Theme = document.DocumentNode.SelectSingleNode("//h1[contains(@class,'post__title')]//a");
+                var Theme = Document.DocumentNode.SelectSingleNode("//h1[contains(@class,'post__title')]//a");
                 Console.Write("\nТема: " + Theme.InnerText);
 
                 //Поиск названия статьи
-                var SpansInTitle = document.DocumentNode.SelectNodes("//h1[contains(@class,'post__title')]//span");
+                var SpansInTitle = Document.DocumentNode.SelectNodes("//h1[contains(@class,'post__title')]//span");
                 Console.Write("\n\nНазвание статьи:\n" + SpansInTitle[1].InnerText);
 
                 //Поиск тегов
-                var Tegs = document.DocumentNode.SelectNodes("//a[contains(@class,'hub')]");
+                var Tegs = Document.DocumentNode.SelectNodes("//a[contains(@class,'hub')]");
                 Console.Write("\n\nТеги:\n");
                 foreach (var teg in Tegs)
                     Console.WriteLine("\t" + teg.InnerText);
 
                 //Поиск даты публикации
-                var PublicationDate = document.DocumentNode.SelectSingleNode("//span[contains(@class,'post__time_published')]");
+                var PublicationDate = Document.DocumentNode.SelectSingleNode("//span[contains(@class,'post__time_published')]");
                 Console.Write("\n\nДата публикации статьи: " + PublicationDate.InnerText);
 
                 //Поиск статьи
-                var ArticleText = document.DocumentNode.SelectSingleNode("//div[contains(@class,'content html_format')]");
+                var ArticleText = Document.DocumentNode.SelectSingleNode("//div[contains(@class,'content html_format')]");
                 Console.Write("\n\nТекст статьи:\n" + ArticleText.InnerText);
                 Console.WriteLine("\n\n");
             }
@@ -62,30 +62,24 @@ namespace HabrParser
 
             int ArticleId=0;
 
-            try
-            {
-                ArticleId = Convert.ToInt32(Console.ReadLine());
-            }
-            catch (System.FormatException e) {
+            bool isArticleId = Int32.TryParse(Console.ReadLine(), out ArticleId);
 
+            if(isArticleId)
+                GetDataById(ArticleId);
+            else
                 Console.Write("\nУникальный номер статьи введен неправильно!\n\n");
-                return;
-            }
-
-            GetDataById(ArticleId);
-
         }
 
         static void FindArticleByKeyword(){
 
             Console.Write("Введите слово/фразу для поиска статьи: ");
             
-            string SearchPage = "http://www.habrahabr.ru/search/?q=" + Console.ReadLine();
+            string SearchPage = Resources.SearchString + Console.ReadLine();
 
-            HtmlWeb web = new HtmlWeb();
-            HtmlDocument document = web.Load(SearchPage);
+            HtmlWeb Web = new HtmlWeb();
+            HtmlDocument Document = Web.Load(SearchPage);
 
-            var SearchArticle = document.DocumentNode.SelectSingleNode("//div[contains(@class,'post_teaser')]");
+            var SearchArticle = Document.DocumentNode.SelectSingleNode("//div[contains(@class,'post_teaser')]");
 
             if (SearchArticle != null){
 
@@ -94,81 +88,61 @@ namespace HabrParser
                 GetDataById(ArticleId);
 
             }
-            else {
-
+            else 
                 Console.Write("\nНе нашлось ни одной статьи по вашему запросу =(");
-
-            }
 
         }
 
         static void Main(string[] args)
         {
-            string Menu = "Поиск статей на Хабре\n 1)Найти статью по уникальному номеру\n 2)Поиск статьи по ключевой фразе\n 3)Выход\nВыберите действие(1-3): ";
+           bool isExit = false;
 
-            Console.Write(Menu);
+           while (!isExit)
+           {
 
-            int action = 0; //операция в меню
+               Console.Write(Resources.MenuString);
 
-            try
-            {
-                action = Convert.ToInt32(Console.ReadLine());
-            }
-            catch (Exception e)
-            {
-            }
+               int Action; //операция в меню
 
-            bool isExit = false;
+               bool isAction = Int32.TryParse(Console.ReadLine(), out Action);
 
-            while (!isExit)
-            {
+               if (isAction)
+               {
 
-                while (action > 3 || action < 1)
-                {
-                    Console.Write("\nНеизвестное значение операции!\n\n");
-                    Console.Write(Menu);
-                    try
-                    {
-                        action = Convert.ToInt32(Console.ReadLine());
-                    }
-                    catch (Exception e)
-                    {
-                    }
-                }
+                   while (Action > 3 || Action < 1)
+                   {
+                       Console.Write("\nНеизвестное значение операции!\n\n");
+                       Console.Write(Resources.MenuString);
 
-                switch (action)
-                {
-                    case 1:
+                       isAction = Int32.TryParse(Console.ReadLine(), out Action);
+                   }
 
-                        FindArticleById();
+                   switch (Action)
+                   {
+                       case 1:
 
-                        break;
-                    case 2:
+                           FindArticleById();
+                           break;
 
-                        FindArticleByKeyword();
+                       case 2:
 
-                        break;
-                    case 3:
+                           FindArticleByKeyword();
+                           break;
 
-                        Console.WriteLine("\nСпасибо, что воспользовались нашим сервисом!\nДля прололжения нажмите любую клавишу");
-                        Console.ReadLine();
-                        isExit = true;
-                        break;
-                }
+                       case 3:
 
+                           Console.WriteLine("\nСпасибо, что воспользовались нашим сервисом!\nДля прололжения нажмите любую клавишу");
+                           Console.ReadLine();
+                           isExit = true;
+                           break;
+                   }
 
-                if (action != 3)
-                {
-                    Console.Write(Menu);
-                    try
-                    {
-                        action = Convert.ToInt32(Console.ReadLine());
-                    }
-                    catch (Exception e)
-                    {
-                    }
-                }
-            }
+               }
+               else
+                   Console.Write("\nНеизвестное значение операции!\n\n");
+
+           }
+
         }
     }
 }
