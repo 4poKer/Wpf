@@ -67,27 +67,27 @@ namespace HabrParser {
         ///3)Выход
         ///Выберите действие(1-3): .
         /// </summary>
-        internal static string MenuString {
+        internal static string menuString {
             get {
-                return ResourceManager.GetString("MenuString", resourceCulture);
+                return ResourceManager.GetString("menuString", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to http://www.habrahabr.ru/post/.
         /// </summary>
-        internal static string PostString {
+        internal static string postString {
             get {
-                return ResourceManager.GetString("PostString", resourceCulture);
+                return ResourceManager.GetString("postString", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to http://www.habrahabr.ru/search/?q=.
         /// </summary>
-        internal static string SearchString {
+        internal static string searchString {
             get {
-                return ResourceManager.GetString("SearchString", resourceCulture);
+                return ResourceManager.GetString("searchString", resourceCulture);
             }
         }
     }

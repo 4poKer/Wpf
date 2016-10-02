@@ -9,14 +9,14 @@ namespace HabrParser
 {
     class Program
     {
-        static void GetDataById(int ArticleId) {
+        static void GetDataById(int articleId) {
 
-            HtmlDocument Document=null;
+            HtmlDocument document=null;
 
             try
             {
-                HtmlWeb Web = new HtmlWeb();
-                Document = Web.Load(Resources.PostString + ArticleId + "/");
+                HtmlWeb web = new HtmlWeb();
+                document = web.Load(Resources.postString + articleId + "/");
             }
             catch (System.Net.WebException ex)
             {
@@ -28,26 +28,26 @@ namespace HabrParser
             try
             {
                 //Поиск названия темы
-                var Theme = Document.DocumentNode.SelectSingleNode("//h1[contains(@class,'post__title')]//a");
-                Console.Write("\nТема: " + Theme.InnerText);
+                var theme = document.DocumentNode.SelectSingleNode("//h1[contains(@class,'post__title')]//a");
+                Console.Write("\nТема: " + theme.InnerText);
 
                 //Поиск названия статьи
-                var SpansInTitle = Document.DocumentNode.SelectNodes("//h1[contains(@class,'post__title')]//span");
-                Console.Write("\n\nНазвание статьи:\n" + SpansInTitle[1].InnerText);
+                var spansInTitle = document.DocumentNode.SelectNodes("//h1[contains(@class,'post__title')]//span");
+                Console.Write("\n\nНазвание статьи:\n" + spansInTitle[1].InnerText);
 
                 //Поиск тегов
-                var Tegs = Document.DocumentNode.SelectNodes("//a[contains(@class,'hub')]");
+                var tags = document.DocumentNode.SelectNodes("//a[contains(@class,'hub')]");
                 Console.Write("\n\nТеги:\n");
-                foreach (var teg in Tegs)
-                    Console.WriteLine("\t" + teg.InnerText);
+                foreach (var tag in tags)
+                    Console.WriteLine("\t" + tag.InnerText);
 
                 //Поиск даты публикации
-                var PublicationDate = Document.DocumentNode.SelectSingleNode("//span[contains(@class,'post__time_published')]");
-                Console.Write("\n\nДата публикации статьи: " + PublicationDate.InnerText);
+                var publicationDate = document.DocumentNode.SelectSingleNode("//span[contains(@class,'post__time_published')]");
+                Console.Write("\n\nДата публикации статьи: " + publicationDate.InnerText);
 
                 //Поиск статьи
-                var ArticleText = Document.DocumentNode.SelectSingleNode("//div[contains(@class,'content html_format')]");
-                Console.Write("\n\nТекст статьи:\n" + ArticleText.InnerText);
+                var articleText = document.DocumentNode.SelectSingleNode("//div[contains(@class,'content html_format')]");
+                Console.Write("\n\nТекст статьи:\n" + articleText.InnerText);
                 Console.WriteLine("\n\n");
             }
             catch(Exception e) {
@@ -60,12 +60,12 @@ namespace HabrParser
 
             Console.Write("\nВведите уникальный номер статьи: ");
 
-            int ArticleId=0;
+            int articleId=0;
 
-            bool isArticleId = Int32.TryParse(Console.ReadLine(), out ArticleId);
+            bool isArticleId = Int32.TryParse(Console.ReadLine(), out articleId);
 
             if(isArticleId)
-                GetDataById(ArticleId);
+                GetDataById(articleId);
             else
                 Console.Write("\nУникальный номер статьи введен неправильно!\n\n");
         }
@@ -74,18 +74,18 @@ namespace HabrParser
 
             Console.Write("Введите слово/фразу для поиска статьи: ");
             
-            string SearchPage = Resources.SearchString + Console.ReadLine();
+            string searchPage = Resources.searchString + Console.ReadLine();
 
-            HtmlWeb Web = new HtmlWeb();
-            HtmlDocument Document = Web.Load(SearchPage);
+            HtmlWeb web = new HtmlWeb();
+            HtmlDocument document = web.Load(searchPage);
 
-            var SearchArticle = Document.DocumentNode.SelectSingleNode("//div[contains(@class,'post_teaser')]");
+            var searchArticle = document.DocumentNode.SelectSingleNode("//div[contains(@class,'post_teaser')]");
 
-            if (SearchArticle != null){
+            if (searchArticle != null){
 
-                int ArticleId = Convert.ToInt32(SearchArticle.Id.Split('_')[1]);
+                int articleId = Convert.ToInt32(searchArticle.Id.Split('_')[1]);
 
-                GetDataById(ArticleId);
+                GetDataById(articleId);
 
             }
             else 
@@ -100,24 +100,24 @@ namespace HabrParser
            while (!isExit)
            {
 
-               Console.Write(Resources.MenuString);
+               Console.Write(Resources.menuString);
 
-               int Action; //операция в меню
+               int menuAction; //операция в меню
 
-               bool isAction = Int32.TryParse(Console.ReadLine(), out Action);
+               bool isAction = Int32.TryParse(Console.ReadLine(), out menuAction);
 
                if (isAction)
                {
 
-                   while (Action > 3 || Action < 1)
+                   while (menuAction > 3 || menuAction < 1)
                    {
                        Console.Write("\nНеизвестное значение операции!\n\n");
-                       Console.Write(Resources.MenuString);
+                       Console.Write(Resources.menuString);
 
-                       isAction = Int32.TryParse(Console.ReadLine(), out Action);
+                       Int32.TryParse(Console.ReadLine(), out menuAction);
                    }
 
-                   switch (Action)
+                   switch (menuAction)
                    {
                        case 1:
 

@@ -117,17 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MenuString" xml:space="preserve">
+  <data name="menuString" xml:space="preserve">
     <value>Поиск статей на Хабре
 1)Найти статью по уникальному номеру
 2)Поиск статьи по ключевой фразе
 3)Выход
 Выберите действие(1-3): </value>
   </data>
-  <data name="PostString" xml:space="preserve">
+  <data name="postString" xml:space="preserve">
     <value>http://www.habrahabr.ru/post/</value>
   </data>
-  <data name="SearchString" xml:space="preserve">
+  <data name="searchString" xml:space="preserve">
     <value>http://www.habrahabr.ru/search/?q=</value>
   </data>
 </root>
