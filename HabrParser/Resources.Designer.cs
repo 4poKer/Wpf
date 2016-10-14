@@ -61,6 +61,15 @@ namespace HabrParser {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to habrbd.
+        /// </summary>
+        internal static string dbName {
+            get {
+                return ResourceManager.GetString("dbName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Поиск статей на Хабре
         ///1)Найти статью по уникальному номеру
         ///2)Поиск статьи по ключевой фразе
@@ -70,6 +79,15 @@ namespace HabrParser {
         internal static string menuString {
             get {
                 return ResourceManager.GetString("menuString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to mongodb://localhost.
+        /// </summary>
+        internal static string mongoDbConnectionString {
+            get {
+                return ResourceManager.GetString("mongoDbConnectionString", resourceCulture);
             }
         }
         

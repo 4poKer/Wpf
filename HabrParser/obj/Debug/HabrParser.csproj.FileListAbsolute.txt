@@ -9,3 +9,13 @@ c:\users\arseni\documents\visual studio 2015\Projects\HabrParser\HabrParser\bin\
 C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\obj\Debug\HabrParser.csprojResolveAssemblyReference.cache
 C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\obj\Debug\HabrParser.csproj.GenerateResource.Cache
 C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\obj\Debug\HabrParser.Resources.resources
+C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\bin\Debug\MongoDB.Bson.dll
+C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\bin\Debug\MongoDB.Driver.Core.dll
+C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\bin\Debug\MongoDB.Driver.dll
+C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\bin\Debug\MongoDB.Bson.xml
+C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\bin\Debug\MongoDB.Driver.xml
+C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\bin\Debug\MongoDB.Driver.Core.xml
+C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\bin\Debug\MongoDB.Driver.GridFS.dll
+C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\bin\Debug\MongoDB.Driver.Legacy.dll
+C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\bin\Debug\MongoDB.Driver.GridFS.xml
+C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\bin\Debug\MongoDB.Driver.Legacy.xml

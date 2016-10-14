@@ -4,55 +4,65 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using MongoDB.Driver;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver.Builders;
+using MongoDB.Driver.Linq;
+using MongoDB.Driver.GridFS;
+
 
 namespace HabrParser
 {
+
     class Program
     {
         static void GetDataById(int articleId) {
 
-            HtmlDocument document=null;
+            var client = new MongoClient(Resources.mongoDbConnectionString);
 
-            try
+            var server = client.GetServer();
+            var mongoDatabase = server.GetDatabase(Resources.dbName);
+
+            var habrArticleCollection = mongoDatabase.GetCollection<HabrArticle>("HabrArticle");
+
+            HabrArticle habrArticle = null;
+
+            habrArticle = habrArticleCollection.AsQueryable().FirstOrDefault(ha => ha.HabrId == articleId);
+
+            if (habrArticle == null)
             {
-                HtmlWeb web = new HtmlWeb();
-                document = web.Load(Resources.postString + articleId + "/");
+                HtmlDocument document = null;
+
+                try
+                {
+                    HtmlWeb web = new HtmlWeb();
+                    document = web.Load(Resources.postString + articleId + "/");
+                }
+                catch (System.Net.WebException ex)
+                {
+
+                    Console.WriteLine("\nНевозможно получить доступ к ресурсу!\n");
+
+                }
+
+                try
+                {
+
+                    habrArticle = new HabrArticle(document, articleId);
+                    habrArticleCollection.Insert(habrArticle);
+                    habrArticle.Show();
+
+                }
+                catch (Exception e)
+                {
+
+                    Console.WriteLine("\nError 404: Article not found =(\n");
+                }
             }
-            catch (System.Net.WebException ex)
+            else
             {
-
-                Console.WriteLine("\nНевозможно получить доступ к ресурсу!\n");
-
-            }
-
-            try
-            {
-                //Поиск названия темы
-                var theme = document.DocumentNode.SelectSingleNode("//h1[contains(@class,'post__title')]//a");
-                Console.Write("\nТема: " + theme.InnerText);
-
-                //Поиск названия статьи
-                var spansInTitle = document.DocumentNode.SelectNodes("//h1[contains(@class,'post__title')]//span");
-                Console.Write("\n\nНазвание статьи:\n" + spansInTitle[1].InnerText);
-
-                //Поиск тегов
-                var tags = document.DocumentNode.SelectNodes("//a[contains(@class,'hub')]");
-                Console.Write("\n\nТеги:\n");
-                foreach (var tag in tags)
-                    Console.WriteLine("\t" + tag.InnerText);
-
-                //Поиск даты публикации
-                var publicationDate = document.DocumentNode.SelectSingleNode("//span[contains(@class,'post__time_published')]");
-                Console.Write("\n\nДата публикации статьи: " + publicationDate.InnerText);
-
-                //Поиск статьи
-                var articleText = document.DocumentNode.SelectSingleNode("//div[contains(@class,'content html_format')]");
-                Console.Write("\n\nТекст статьи:\n" + articleText.InnerText);
-                Console.WriteLine("\n\n");
-            }
-            catch(Exception e) {
-
-                Console.WriteLine("\nError 404: Article not found =(\n");
+                habrArticle.Show();
             }
         }
 
@@ -95,6 +105,7 @@ namespace HabrParser
 
         static void Main(string[] args)
         {
+
            bool isExit = false;
 
            while (!isExit)
