@@ -39,7 +39,9 @@ namespace HabrParser
 
         public static void AddHabrArticleToDb(HabrArticle habrArticle)
         {
-                _habrArticleCollection?.InsertOne(habrArticle);   
+            Connect();
+
+            _habrArticleCollection?.InsertOne(habrArticle);   
 
         }
 
