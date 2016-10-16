@@ -19,3 +19,4 @@ C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\bin\
 C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\bin\Debug\MongoDB.Driver.Legacy.dll
 C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\bin\Debug\MongoDB.Driver.GridFS.xml
 C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\bin\Debug\MongoDB.Driver.Legacy.xml
+C:\Users\Arseni\Documents\Visual Studio 2015\Projects\HabrParser\HabrParser\bin\Debug\Configuration.dll

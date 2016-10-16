@@ -10,63 +10,32 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver.Builders;
 using MongoDB.Driver.Linq;
 using MongoDB.Driver.GridFS;
+using System.Configuration;
+using Configuration;
 
 
 namespace HabrParser
 {
 
-    class Program
+    public class Program
     {
-        static void GetDataById(int articleId) {
+        public static void GetDataById(int articleId)
+        {
 
-            var client = new MongoClient(Resources.mongoDbConnectionString);
-
-            var server = client.GetServer();
-            var mongoDatabase = server.GetDatabase(Resources.dbName);
-
-            var habrArticleCollection = mongoDatabase.GetCollection<HabrArticle>("HabrArticle");
-
-            HabrArticle habrArticle = null;
-
-            habrArticle = habrArticleCollection.AsQueryable().FirstOrDefault(ha => ha.HabrId == articleId);
+            HabrArticle habrArticle = MongoDbDriver.GetHabrArticleByIdFromDb(articleId);
 
             if (habrArticle == null)
             {
-                HtmlDocument document = null;
-
-                try
-                {
-                    HtmlWeb web = new HtmlWeb();
-                    document = web.Load(Resources.postString + articleId + "/");
-                }
-                catch (System.Net.WebException ex)
-                {
-
-                    Console.WriteLine("\nНевозможно получить доступ к ресурсу!\n");
-
-                }
-
-                try
-                {
-
-                    habrArticle = new HabrArticle(document, articleId);
-                    habrArticleCollection.Insert(habrArticle);
-                    habrArticle.Show();
-
-                }
-                catch (Exception e)
-                {
-
-                    Console.WriteLine("\nError 404: Article not found =(\n");
-                }
+                    habrArticle = HabrArticleController.GetHabrArticleFromInternet(articleId);
+                    MongoDbDriver.AddHabrArticleToDb(habrArticle);
             }
-            else
-            {
-                habrArticle.Show();
-            }
+
+            HabrArticleController.Show(habrArticle);
+            
         }
 
-        static void FindArticleById() {
+        public static void FindArticleById()
+        {
 
             Console.Write("\nВведите уникальный номер статьи: ");
 
@@ -80,7 +49,8 @@ namespace HabrParser
                 Console.Write("\nУникальный номер статьи введен неправильно!\n\n");
         }
 
-        static void FindArticleByKeyword(){
+        public static void FindArticleByKeyword()
+        {
 
             Console.Write("Введите слово/фразу для поиска статьи: ");
             
@@ -103,7 +73,7 @@ namespace HabrParser
 
         }
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
 
            bool isExit = false;
