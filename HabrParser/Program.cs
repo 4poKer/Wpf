@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using HtmlAgilityPack;
-using MongoDB.Driver;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver.Builders;
-using MongoDB.Driver.Linq;
-using MongoDB.Driver.GridFS;
-using System.Configuration;
-using Configuration;
 
 
 namespace HabrParser
@@ -19,19 +8,18 @@ namespace HabrParser
 
     public class Program
     {
-        public static void GetDataById(int articleId)
+        public static void GetArticleById(int articleId)
         {
 
-            HabrArticle habrArticle = MongoDbDriver.GetHabrArticleByIdFromDb(articleId);
+            HabrContext habrContext = new HabrContext();
+
+            var habrArticle = habrContext.HabrArticles.FirstOrDefault(a => a.HabrArticleId == articleId);
 
             if (habrArticle == null)
-            {
-                    habrArticle = HabrArticleController.GetHabrArticleFromInternet(articleId);
-                    MongoDbDriver.AddHabrArticleToDb(habrArticle);
-            }
+                habrArticle = HabrController.GetHabrArticleByIdFromInternet(articleId);
 
-            HabrArticleController.Show(habrArticle);
-            
+
+            HabrController.ShowHabrArticle(habrArticle);
         }
 
         public static void FindArticleById()
@@ -39,12 +27,12 @@ namespace HabrParser
 
             Console.Write("\nВведите уникальный номер статьи: ");
 
-            int articleId=0;
+            var articleId = 0;
 
             bool isArticleId = Int32.TryParse(Console.ReadLine(), out articleId);
 
-            if(isArticleId)
-                GetDataById(articleId);
+            if (isArticleId)
+                GetArticleById(articleId);
             else
                 Console.Write("\nУникальный номер статьи введен неправильно!\n\n");
         }
@@ -53,7 +41,7 @@ namespace HabrParser
         {
 
             Console.Write("Введите слово/фразу для поиска статьи: ");
-            
+
             string searchPage = Resources.searchString + Console.ReadLine();
 
             HtmlWeb web = new HtmlWeb();
@@ -61,69 +49,115 @@ namespace HabrParser
 
             var searchArticle = document.DocumentNode.SelectSingleNode("//div[contains(@class,'post_teaser')]");
 
-            if (searchArticle != null){
+            if (searchArticle != null)
+            {
 
                 int articleId = Convert.ToInt32(searchArticle.Id.Split('_')[1]);
 
-                GetDataById(articleId);
+                GetArticleById(articleId);
 
             }
-            else 
+            else
                 Console.Write("\nНе нашлось ни одной статьи по вашему запросу =(");
 
+        }
+
+        public static void FindArticlesByAutorNickName()
+        {
+
+            Console.Write("\nВведите ник автора: ");
+
+            var nickName = Console.ReadLine();
+
+            HabrContext habrContext = new HabrContext();
+
+            var  habrArticlesList =  habrContext.HabrArticles.Where(a => a.HabrAutor.NickName == nickName);
+
+            if (habrArticlesList.Count() > 0)
+            {
+                for(int i = 0;i< habrArticlesList.Count();++i)
+                {
+                    Console.WriteLine("\n//////////" + (i+1) + "//////////");
+                    HabrController.ShowHabrArticle(habrArticlesList.ToList()[i]);
+                }
+            }
+            else
+            {
+                Console.WriteLine("\nНет сохраненных статей автора "+ nickName +"\n");
+            }
+
+        }
+
+        public static void FindAutorByNickName()
+        {
+            Console.Write("\nВведите ник автора: ");
+
+            var habrAutor = HabrController.GetHabrAutorByNickName(Console.ReadLine());
+
+            HabrController.ShowHabrAutor(habrAutor);
         }
 
         public static void Main(string[] args)
         {
 
-           bool isExit = false;
+            var isExit = false;
 
-           while (!isExit)
-           {
+            while (!isExit)
+            {
 
-               Console.Write(Resources.menuString);
+                Console.Write(Resources.menuString);
 
-               int menuAction; //операция в меню
+                int menuAction; //операция в меню
 
-               bool isAction = Int32.TryParse(Console.ReadLine(), out menuAction);
+                var isAction = Int32.TryParse(Console.ReadLine(), out menuAction);
 
-               if (isAction)
-               {
+                if (isAction)
+                {
 
-                   while (menuAction > 3 || menuAction < 1)
-                   {
-                       Console.Write("\nНеизвестное значение операции!\n\n");
-                       Console.Write(Resources.menuString);
+                    while (menuAction > 5 || menuAction < 1)
+                    {
+                        Console.Write("\nНеизвестное значение операции!\n\n");
+                        Console.Write(Resources.menuString);
 
-                       Int32.TryParse(Console.ReadLine(), out menuAction);
-                   }
+                        Int32.TryParse(Console.ReadLine(), out menuAction);
+                    }
 
-                   switch (menuAction)
-                   {
-                       case 1:
+                    switch (menuAction)
+                    {
 
-                           FindArticleById();
-                           break;
+                     case 1:
 
-                       case 2:
+                        FindArticleById();
+                        break;
 
-                           FindArticleByKeyword();
-                           break;
+                     case 2:
 
-                       case 3:
+                        FindArticleByKeyword();
+                        break;
 
-                           Console.WriteLine("\nСпасибо, что воспользовались нашим сервисом!\nДля прололжения нажмите любую клавишу");
-                           Console.ReadLine();
-                           isExit = true;
-                           break;
-                   }
+                     case 3:
 
-               }
-               else
-                   Console.Write("\nНеизвестное значение операции!\n\n");
+                        FindAutorByNickName();
+                        break;
 
-           }
+                     case 4:
 
+                        FindArticlesByAutorNickName();
+                        break;
+
+                     case 5:
+
+                        Console.WriteLine("\nСпасибо, что воспользовались нашим сервисом!\nДля прололжения нажмите любую клавишу");
+                        Console.ReadLine();
+                        isExit = true;
+                        break;
+                    }
+
+                }
+                else
+                    Console.Write("\nНеизвестное значение операции!\n\n");
+
+            }
         }
     }
 }

@@ -121,13 +121,18 @@
     <value>Поиск статей на Хабре
 1)Найти статью по уникальному номеру
 2)Поиск статьи по ключевой фразе
-3)Выход
-Выберите действие(1-3): </value>
+3)Поиск автора
+4)Поиск сохраненных статей автора
+5)Выход
+Выберите действие(1-5): </value>
   </data>
   <data name="postString" xml:space="preserve">
     <value>http://www.habrahabr.ru/post/</value>
   </data>
   <data name="searchString" xml:space="preserve">
     <value>http://www.habrahabr.ru/search/?q=</value>
+  </data>
+  <data name="userString" xml:space="preserve">
+    <value>https://habrahabr.ru/users/</value>
   </data>
 </root>
