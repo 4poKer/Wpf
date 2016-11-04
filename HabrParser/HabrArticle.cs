@@ -1,26 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HtmlAgilityPack;
-using MongoDB.Bson;
+
 
 namespace HabrParser
 {
     public class HabrArticle
     {
-        public ObjectId Id { get; set; }
+        public int Id { get; set; }
 
-        public int HabrId { get; set; }
+        public int HabrArticleId { get; set; }
 
         public string Theme { get; set; }
 
         public string Title { get; set; }
 
-        public List<string> Tags { get; set; }
+        public ICollection<string> Tags { get; set; }
+
+        public string ListString
+        {
+            get { return string.Join(",", Tags); }
+            set { Tags = value.Split(',').ToList(); }
+        }
 
         public string PublicationDate { get; set; }
 
+        public virtual HabrAutor HabrAutor { get; set; }
     }
 }

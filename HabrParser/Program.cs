@@ -8,31 +8,20 @@ namespace HabrParser
 
     public class Program
     {
-        public static void GetArticleById(int articleId)
-        {
-
-            HabrContext habrContext = new HabrContext();
-
-            var habrArticle = habrContext.HabrArticles.FirstOrDefault(a => a.HabrArticleId == articleId);
-
-            if (habrArticle == null)
-                habrArticle = HabrController.GetHabrArticleByIdFromInternet(articleId);
-
-
-            HabrController.ShowHabrArticle(habrArticle);
-        }
-
+       
         public static void FindArticleById()
         {
 
             Console.Write("\nВведите уникальный номер статьи: ");
 
-            var articleId = 0;
+            int articleId;
 
-            bool isArticleId = Int32.TryParse(Console.ReadLine(), out articleId);
+            var isArticleId = Int32.TryParse(Console.ReadLine(), out articleId);
 
-            if (isArticleId)
-                GetArticleById(articleId);
+            if (isArticleId && articleId != 1)
+            {
+                HabrController.ShowHabrArticle(HabrController.GetArticleById(articleId));
+            }
             else
                 Console.Write("\nУникальный номер статьи введен неправильно!\n\n");
         }
@@ -42,19 +31,19 @@ namespace HabrParser
 
             Console.Write("Введите слово/фразу для поиска статьи: ");
 
-            string searchPage = Resources.searchString + Console.ReadLine();
+            var searchPage = Resources.searchString + Console.ReadLine();
 
-            HtmlWeb web = new HtmlWeb();
-            HtmlDocument document = web.Load(searchPage);
+            var web = new HtmlWeb();
+            var document = web.Load(searchPage);
 
             var searchArticle = document.DocumentNode.SelectSingleNode("//div[contains(@class,'post_teaser')]");
 
             if (searchArticle != null)
             {
 
-                int articleId = Convert.ToInt32(searchArticle.Id.Split('_')[1]);
+                var articleId = Convert.ToInt32(searchArticle.Id.Split('_')[1]);
 
-                GetArticleById(articleId);
+                HabrController.ShowHabrArticle(HabrController.GetArticleById(articleId));
 
             }
             else
@@ -69,16 +58,14 @@ namespace HabrParser
 
             var nickName = Console.ReadLine();
 
-            HabrContext habrContext = new HabrContext();
+            var habrArticlesList = HabrController.GetArticlesByAutorNickName(nickName);
 
-            var  habrArticlesList =  habrContext.HabrArticles.Where(a => a.HabrAutor.NickName == nickName);
-
-            if (habrArticlesList.Count() > 0)
+            if (habrArticlesList.Any())
             {
-                for(int i = 0;i< habrArticlesList.Count();++i)
+                for(var i = 0; i < habrArticlesList.Count(); ++i)
                 {
                     Console.WriteLine("\n//////////" + (i+1) + "//////////");
-                    HabrController.ShowHabrArticle(habrArticlesList.ToList()[i]);
+                    HabrController.ShowHabrArticle(habrArticlesList[i]);
                 }
             }
             else
