@@ -30,7 +30,7 @@
             <Button x:Name="FindArticleButton" Content="Найти" Margin="10,0,0,0" Height="20" Click="FindArticleButton_OnClick"/>
         </StackPanel>
 
-        <local:HabrArticleView x:Name="HabrArticleViewItem" />
+        <local:HabrArticleView DataContext="{Binding HabrArticle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="HabrArticleViewItem" />
 
     </StackPanel>
 </Window>

@@ -23,6 +23,9 @@ namespace WpfHabrParser
     /// </summary>
     public partial class MainWindow : Window
     {
+        private HabrArticle HabrArticle { get; set; }
+        //private HabrArticleView HabrArticleView { get; set; }
+
         public Dictionary<int, string> CommandType;
         public int RadioButtonCode;
 
@@ -37,6 +40,8 @@ namespace WpfHabrParser
             };
 
             SearchingLabel.Content = CommandType[RadioButtonCode];
+
+            //HabrArticleView = new HabrArticleView();
 
         }
 
@@ -61,29 +66,26 @@ namespace WpfHabrParser
         private void FindArticleButton_OnClick(object sender, RoutedEventArgs e)
         {
 
-          HabrArticle habrArticle;
-
             if (RadioButtonCode == 0) 
             {
 
-                habrArticle = HabrArticleController.FindArticleByIdFromText(SearchingTextBox.Text);
+                HabrArticle = HabrArticleController.FindArticleByIdFromText(SearchingTextBox.Text);
 
             }
             else
             {
 
-                habrArticle = HabrArticleController.FindArticleByKeyword(SearchingTextBox.Text);
+                HabrArticle = HabrArticleController.FindArticleByKeyword(SearchingTextBox.Text);
             }
 
 
-            if (habrArticle != null)
+            if (HabrArticle != null)
             {
+                //HabrArticleView.DataContext = HabrArticle;
 
-                //viewModel
-                var habrArticleViewModel = new HabrArticleViewModel(habrArticle);
+                HabrArticleViewItem.DataContext = HabrArticle;
 
-                //view
-                HabrArticleViewItem.DataContext = habrArticleViewModel;
+                //this.DataContext = HabrArticle;
 
             }
         }
